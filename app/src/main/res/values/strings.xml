@@ -1,12 +1,36 @@
 <resources>
     <string name="app_name">URush</string>
 
+    <!-- Drawer Configuratiosn -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Home String Configurations -->
+    <string name="home_header">UARK Rush Week</string>
+    <string name="home_description">Welcome to Theta Tau!</string>
+    <string name="home_section_upcoming_label">Upcoming Rush Events</string>
+
+    <!-- Form String Configurations -->
+    <string name="form_header">Rushee Sign-In</string>
+    <string name="form_header_description">Thank you for showing interest in Theta-Tau! \n Please enter your information below.</string>
+    <string name="form_first_name_label">First Name:</string>
+    <string name="form_first_name_hint">Enter first name here...</string>
+    <string name="form_last_name_label">Last Name:</string>
+    <string name="form_last_name_hint">Enter last name here...</string>
+    <string name="form_university_year_label">University Year:</string>
+    <string name="form_university_year_hint">Select from List...</string>
+    <string name="form_university_email_label">University Email:</string>
+    <string name="form_university_email_hint">Enter UARK email address...</string>
+    <string name="form_button_submit">Submit Form</string>
+    <string-array name="form_spinner_entries">
+        <item>Freshman</item>
+        <item>Sophomore</item>
+        <item>Junior</item>
+        <item>Senior</item>
+    </string-array>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_form">FormActivity</string>
 </resources>
