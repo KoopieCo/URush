@@ -69,6 +69,11 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.OnFo
                     .commit();
         }
         else if (id == R.id.nav_contact_info) {
+            Fragment fragment = new ContactInfoFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_home, fragment)
+                    .commit();
 
         }
         else if (id == R.id.nav_settings) {
