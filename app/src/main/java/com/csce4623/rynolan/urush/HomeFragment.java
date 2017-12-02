@@ -7,6 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.csce4623.rynolan.urush.adapter.NewsFeedArrayAdapter;
+import com.csce4623.rynolan.urush.models.NewsItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeFragment extends Fragment {
@@ -20,6 +29,10 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private OnHomeFragmentInteractionListener mListener;
+
+    private ArrayAdapter<NewsItem> newsListAdapter;
+    private ArrayList<NewsItem> newsItems;
+    private ListView listView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -56,7 +69,19 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        listView = (ListView)view.findViewById(R.id.lvNewsFeed);
+
+        newsItems = new ArrayList<>();
+        NewsFeedArrayAdapter newsFeedArrayAdapter = new NewsFeedArrayAdapter(this.getActivity(), newsItems);
+        listView.setAdapter(newsFeedArrayAdapter);
+
+        NewsItem item = new NewsItem("12/2/2017", "Go home, it's Christmas", "Announcement");
+        newsFeedArrayAdapter.add(item);
+        item = new NewsItem("12/2/2017", "Go home drunk, you're John!", "Announcement");
+        newsFeedArrayAdapter.add(item);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -8,7 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.csce4623.rynolan.urush.models.RusheeInfo;
+import com.csce4623.rynolan.urush.restapi.RegistrationAPI;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class FormFragment extends Fragment {
@@ -20,6 +33,10 @@ public class FormFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Button btnSubmit;
+    private EditText etFirstName, etLastName, etEmail;
+    private Spinner spinnerYear;
 
     private OnFormFragmentInteractionListener mListener;
 
@@ -50,6 +67,40 @@ public class FormFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_form, container, false);
 
         // Set views programmatically here
+        etFirstName = (EditText)view.findViewById(R.id.etFormFirstName);
+        etLastName = (EditText)view.findViewById(R.id.etFormLastName);
+        etEmail = (EditText)view.findViewById(R.id.etFormEmail);
+        spinnerYear = (Spinner)view.findViewById(R.id.spinnerFormYear);
+        btnSubmit = (Button)view.findViewById(R.id.btnFormSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Package form data into a single object
+                RusheeInfo pack = new RusheeInfo(etEmail.getText().toString(),etFirstName.getText().toString(),1,etLastName.getText().toString(),spinnerYear.getSelectedItem().toString(),null);
+
+                Gson gson = new GsonBuilder().setLenient().create();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(getString(R.string.base_url))
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+
+                RegistrationAPI registrationAPI = retrofit.create(RegistrationAPI.class);
+                Call<RusheeInfo> call = registrationAPI.addRushee(pack);
+                call.enqueue(new Callback<RusheeInfo>() {
+                    @Override
+                    public void onResponse(Call<RusheeInfo> call, Response<RusheeInfo> response) {
+                        RusheeInfo rushee = response.body();
+                        System.out.println("Submitted Rushee Information!");
+                    }
+
+                    @Override
+                    public void onFailure(Call<RusheeInfo> call, Throwable throwable) {
+                        System.out.println("Failure to Submit Rushee Information...");
+                    }
+                });
+            }
+        });
 
         return view;
     }

@@ -35,6 +35,8 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.OnFo
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener());
+
+
     }
 
     @Override
