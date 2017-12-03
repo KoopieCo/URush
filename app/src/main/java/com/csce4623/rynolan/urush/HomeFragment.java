@@ -1,5 +1,6 @@
 package com.csce4623.rynolan.urush;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,13 +10,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.csce4623.rynolan.urush.adapter.NewsFeedArrayAdapter;
+import com.csce4623.rynolan.urush.models.Announcement;
 import com.csce4623.rynolan.urush.models.NewsItem;
+import com.csce4623.rynolan.urush.restapi.AnnouncementAPI;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class HomeFragment extends Fragment {
@@ -73,17 +85,47 @@ public class HomeFragment extends Fragment {
         listView = (ListView)view.findViewById(R.id.lvNewsFeed);
 
         newsItems = new ArrayList<>();
-        NewsFeedArrayAdapter newsFeedArrayAdapter = new NewsFeedArrayAdapter(this.getActivity(), newsItems);
+        final NewsFeedArrayAdapter newsFeedArrayAdapter = new NewsFeedArrayAdapter(this.getActivity(), newsItems);
         listView.setAdapter(newsFeedArrayAdapter);
 
-        NewsItem item = new NewsItem("12/2/2017", "Go home, it's Christmas", "Announcement");
-        newsFeedArrayAdapter.add(item);
-        item = new NewsItem("12/2/2017", "Go home drunk, you're John!", "Announcement");
-        newsFeedArrayAdapter.add(item);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.base_url))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AnnouncementAPI announcementAPI = retrofit.create(AnnouncementAPI.class);
+        Call<List<Announcement>> call = announcementAPI.getAnnouncements();
+
+        call.enqueue(new Callback<List<Announcement>>() {
+            @Override
+            public void onResponse(Call<List<Announcement>> call, Response<List<Announcement>> response) {
+                if(response.isSuccessful()){
+                    for(Announcement a : response.body()){
+                        NewsItem tmp = new NewsItem(a.getEventTime(), a.getEventLocation(), a.getEventTitle());
+                        newsFeedArrayAdapter.add(tmp);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Announcement>> call, Throwable t) {
+
+            }
+        });
+
+//        NewsItem item = new NewsItem("12/2/2017", "Go home, it's Christmas", "Announcement");
+//        newsFeedArrayAdapter.add(item);
+//        item = new NewsItem("12/2/2017", "Go home drunk, you're John!", "Announcement");
+//        newsFeedArrayAdapter.add(item);
 
         return view;
     }
 
+    public static String formatDate(String s){
+        String oldDate = s;
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return date.toString();
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

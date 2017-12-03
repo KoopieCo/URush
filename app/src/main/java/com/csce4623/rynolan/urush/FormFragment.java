@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.csce4623.rynolan.urush.models.RusheeInfo;
 import com.csce4623.rynolan.urush.restapi.RegistrationAPI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+
+import okhttp3.Headers;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -101,8 +109,10 @@ public class FormFragment extends Fragment {
                 call.enqueue(new Callback<RusheeInfo>() {
                     @Override
                     public void onResponse(Call<RusheeInfo> call, Response<RusheeInfo> response) {
-                        RusheeInfo rushee = response.body();
-                        System.out.println("Submitted Rushee Information!");
+                        if(response.isSuccessful()) {
+                            RusheeInfo rushee = response.body();
+                            Toast.makeText(getContext(),"Submitted Rushee Information", Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
