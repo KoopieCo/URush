@@ -16,13 +16,14 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 
-public class HomeActivity extends AppCompatActivity implements FormFragment.OnFormFragmentInteractionListener, HomeFragment.OnHomeFragmentInteractionListener {
+public class HomeActivity extends AppCompatActivity implements SettingsFragment.OnSettingsFragmentInteractionListener, FormFragment.OnFormFragmentInteractionListener, HomeFragment.OnHomeFragmentInteractionListener {
     private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -35,8 +36,6 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.OnFo
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener());
-
-
     }
 
     @Override
@@ -78,8 +77,12 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.OnFo
                     .commit();
 
         }
-        else if (id == R.id.nav_settings) {
-
+        else if (id == R.id.nav_about) {
+            Fragment fragment = new SettingsFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_home, fragment)
+                    .commit();
         }
         else {
             return false;
@@ -98,6 +101,11 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.OnFo
 
     @Override
     public void onHomeFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void OnSettingsFragmentInteraction(Uri uri){
 
     }
 

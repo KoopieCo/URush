@@ -23,11 +23,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 
 
 public class HomeFragment extends Fragment {
@@ -39,6 +41,9 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ListView list;
+    private ArrayAdapter<String> adapter;
+    private ArrayList<RushEvents> arrayList;
 
     private OnHomeFragmentInteractionListener mListener;
 
@@ -75,12 +80,15 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         listView = (ListView)view.findViewById(R.id.lvNewsFeed);
 
@@ -112,11 +120,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-//        NewsItem item = new NewsItem("12/2/2017", "Go home, it's Christmas", "Announcement");
-//        newsFeedArrayAdapter.add(item);
-//        item = new NewsItem("12/2/2017", "Go home drunk, you're John!", "Announcement");
-//        newsFeedArrayAdapter.add(item);
 
         return view;
     }
