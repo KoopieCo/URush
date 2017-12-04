@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.csce4623.rynolan.urush.adapter.NewsFeedArrayAdapter;
+import com.csce4623.rynolan.urush.configurations.GlobalResources;
 import com.csce4623.rynolan.urush.models.Announcement;
 import com.csce4623.rynolan.urush.models.NewsItem;
 import com.csce4623.rynolan.urush.restapi.AnnouncementAPI;
@@ -41,13 +42,9 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ListView list;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<RushEvents> arrayList;
 
     private OnHomeFragmentInteractionListener mListener;
 
-    private ArrayAdapter<NewsItem> newsListAdapter;
     private ArrayList<NewsItem> newsItems;
     private ListView listView;
 
@@ -90,6 +87,14 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        TextView tvDescription = (TextView)view.findViewById(R.id.tvHomeDescription);
+
+        if(GlobalResources.selectedFraternity == null) {
+            GlobalResources.selectedFraternity = "Theta Tau";
+        }
+        tvDescription.setText(getString(R.string.home_description) + GlobalResources.selectedFraternity + "!");
+
         listView = (ListView)view.findViewById(R.id.lvNewsFeed);
 
         newsItems = new ArrayList<>();
@@ -130,9 +135,9 @@ public class HomeFragment extends Fragment {
         return date.toString();
     }
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(Context context) {
         if (mListener != null) {
-            mListener.onHomeFragmentInteraction(uri);
+            mListener.onHomeFragmentInteraction(context);
         }
     }
 
@@ -165,6 +170,6 @@ public class HomeFragment extends Fragment {
      */
     public interface OnHomeFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onHomeFragmentInteraction(Uri uri);
+        void onHomeFragmentInteraction(Context context);
     }
 }
