@@ -29,11 +29,21 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.50"
                     />
+
                 <ImageView
+                    android:id="@+id/topCrest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/logo"/>
+                    android:clickable="true"
+                    android:src="@drawable/logo" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
                 <View
                     android:layout_height="match_parent"
                     android:layout_width="0dp"

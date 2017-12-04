@@ -13,19 +13,36 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity implements SettingsFragment.OnSettingsFragmentInteractionListener, FormFragment.OnFormFragmentInteractionListener, HomeFragment.OnHomeFragmentInteractionListener {
     private DrawerLayout drawerLayout;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        spinner = (Spinner)findViewById(R.id.spinner);
 
+        List<String> frats = new ArrayList<String>();
+        frats.add("Theta Tau");
+        frats.add("Sigma Pi");
+        frats.add("Alpha Delta Pi");
+
+        ArrayAdapter<String> fratAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, frats);
+        fratAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(fratAdapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
